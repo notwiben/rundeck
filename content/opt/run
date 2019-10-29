@@ -307,6 +307,14 @@ if [ ! -f "${initfile}" ]; then
     sed -i 's,rundeck.server.uuid \=.*,rundeck.server.uuid \= '$(uuidgen)',g' /etc/rundeck/framework.properties
    fi
 
+   if [ "${PREAUTHENTICATED_USING_GOOGLE}" == "true" ]; then
+      echo "rundeck.security.authorization.preauthenticated.enabled=true" >> /etc/rundeck/rundeck-config.properties
+      echo "rundeck.security.authorization.preauthenticated.attributeName=REMOTE_USER_GROUPS" >> /etc/rundeck/rundeck-config.properties
+      echo "rundeck.security.authorization.preauthenticated.delimiter=," >> /etc/rundeck/rundeck-config.properties
+      echo "rundeck.security.authorization.preauthenticated.userNameHeader=X-Forwarded-Email" >> /etc/rundeck/rundeck-config.properties
+      echo "rundeck.security.authorization.preauthenticated.userRolesHeader=X-Forwarded-Roles" >> /etc/rundeck/rundeck-config.properties
+   fi
+
    sed -i 's,JAAS_CONF\=.*,JAAS_CONF\="/etc/rundeck/'${JAAS_CONF_FILE}'",' /etc/rundeck/profile
    sed -i 's,LOGIN_MODULE\=.*,LOGIN_MODULE\="'${LOGIN_MODULE}'",' /etc/rundeck/profile
    sed -i 's,keystore\.password\=.*,keystore\.password\='${KEYSTORE_PASS}',' /etc/rundeck/ssl/ssl.properties
