@@ -311,9 +311,9 @@ if [ ! -f "${initfile}" ]; then
       echo "rundeck.security.authorization.preauthenticated.enabled=true" >> /etc/rundeck/rundeck-config.properties
       echo "rundeck.security.authorization.preauthenticated.attributeName=REMOTE_USER_GROUPS" >> /etc/rundeck/rundeck-config.properties
       echo "rundeck.security.authorization.preauthenticated.delimiter=," >> /etc/rundeck/rundeck-config.properties
-      echo "rundeck.security.authorization.preauthenticated.userNameHeader=X-Forwarded-Email" >> /etc/rundeck/rundeck-config.properties
-      echo "rundeck.security.authorization.preauthenticated.userRolesHeader=X-Forwarded-Roles" >> /etc/rundeck/rundeck-config.properties
-      sed -e "/<auth-constraint>/,/<\/auth-constraint>/d" /var/lib/rundeck/exp/webapp/WEB-INF/web.xml > /tmp/modified-web.xml
+      echo "rundeck.security.authorization.preauthenticated.userNameHeader=HTTP_X_POMERIUM_AUTHENTICATED_USER_EMAIL" >> /etc/rundeck/rundeck-config.properties
+      echo "rundeck.security.authorization.preauthenticated.userRolesHeader=HTTP_X_POMERIUM_AUTHENTICATED_USER_GROUPS" >> /etc/rundeck/rundeck-config.properties
+      # sed -e "/<auth-constraint>/,/<\/auth-constraint>/d" /var/lib/rundeck/exp/webapp/WEB-INF/web.xml > /tmp/modified-web.xml
    fi
 
    sed -i 's,JAAS_CONF\=.*,JAAS_CONF\="/etc/rundeck/'${JAAS_CONF_FILE}'",' /etc/rundeck/profile

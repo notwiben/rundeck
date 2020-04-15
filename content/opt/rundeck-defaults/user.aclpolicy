@@ -1,0 +1,55 @@
+description: allow read only access to all projects
+context:
+   project: '.*' # all projects
+for:
+   resource:
+     - equals:
+         kind: job
+       allow: [read,run] # allow read jobs
+     - equals:
+         kind: node
+       allow: [read] # allow refresh node sources
+     - equals:
+         kind: event
+       allow: [read] # allow read/read events
+   adhoc:
+     - allow: [read] # allow read adhoc jobs
+   job:
+     - allow: [read,run] # allow read of all jobs
+   node:
+     - allow: [read,run] # allow read for nodes
+by:
+   group: rundeck_users
+---
+
+description: allow read only access to all projects
+context:
+   application: 'rundeck'
+for:
+   resource:
+     - equals:
+         kind: project
+       allow: [read] # allow read of projects
+     - equals:
+         kind: system
+       allow: [read] # allow read executions
+     - equals:
+         kind: system_acl
+       allow: [read] # allow reading system ACL files
+     - equals:
+         kind: 'apitoken'
+       allow: [create]
+   project:
+     - match:
+         name: '.*'
+       allow: [read] # allow read access of all projects or use 'admin'
+   project_acl:
+     - match:
+         name: '.*'
+       allow: [read] # allow reading project-specific ACL files
+   storage:
+     - allow: [read] # allow read access for /ssh-key/* storage content
+   apitoken:
+     - allow: [generate_user_token,create] # allow to generate API tokens
+by:
+   group: rundeck_users
