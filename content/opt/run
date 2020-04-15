@@ -309,7 +309,7 @@ if [ ! -f "${initfile}" ]; then
 
    if [ "${PREAUTHENTICATED_USING_GOOGLE}" == "true" ]; then
       echo "rundeck.security.authorization.preauthenticated.enabled=true" >> /etc/rundeck/rundeck-config.properties
-      echo "rundeck.security.authorization.preauthenticated.attributeName=REMOTE_USER_GROUPS" >> /etc/rundeck/rundeck-config.properties
+      echo "rundeck.security.authorization.preauthenticated.attributeName=X-Forwarded-Proto" >> /etc/rundeck/rundeck-config.properties
       echo "rundeck.security.authorization.preauthenticated.delimiter=," >> /etc/rundeck/rundeck-config.properties
       echo "rundeck.security.authorization.preauthenticated.userNameHeader=HTTP_X_POMERIUM_AUTHENTICATED_USER_EMAIL" >> /etc/rundeck/rundeck-config.properties
       echo "rundeck.security.authorization.preauthenticated.userRolesHeader=HTTP_X_POMERIUM_AUTHENTICATED_USER_GROUPS" >> /etc/rundeck/rundeck-config.properties
